@@ -1,30 +1,3 @@
-# sonarqube-install-cli
-Deploy Sonarqube on OpenShift using a deployment template.
-
-## Create a Project
-[sonarqube-namespace.yaml](sonarqube-namespace.yaml)
-```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    openshift.io/description: "Catch bugs and vulnerabilities in your app, with thousands of automated Static Code Analysis rules."
-    openshift.io/display-name: "SonarQube Static Code Analysis"
-  name: sonarqube
-```
-```shell script
-oc apply -f sonarqube-namespace.yaml
-```
-or
-```shell script
-oc new-project sonarqube
-```
-
-## Apply the Deployment template
-- Template will trigger a Deployment, create the Service and expose Route
-
-[sonarqube-template.yaml](sonarqube-template.yaml)
-```yaml
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -138,21 +111,3 @@ spec:
     app: sonarqube
     name: sonarqube
   type: ClusterIP
-```
-```shell script
-oc apply -f sonarqube-template.yaml -n sonarqube
-```
-
-### Access SonarQube GUI
-```shell script
-oc get routes -n sonarqube
-```
-You should see one route:
-- sonarqube — is for connecting to the gui
-
-connect to the route named **sonarqube** using your browser
-and login using credentials (username/password: admin/admin)
-
----
-Installation is base on the example provided by 
-[Siamak Sadeghianfar](https://github.com/siamaksade/tekton-cd-demo/blob/pipelines-1.2/cd/sonarqube.yaml)
